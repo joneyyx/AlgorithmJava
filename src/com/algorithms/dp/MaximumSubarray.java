@@ -27,9 +27,37 @@ package com.algorithms.dp;
  */
 public class MaximumSubarray {
     public static void main(String[] args) {
-        Solution solution = new MaximumSubarray().new Solution();
+        MaximumSubarray maximumSubarray = new MaximumSubarray();
+        Solution solution = maximumSubarray.new Solution();
         System.out.println(solution.maxSubArray(new int[] {-2,1,-3,4,-1,2,1,-5,4}));
 
+        Solution2023 solution2023 = maximumSubarray.new Solution2023();
+        int result2023 = solution2023.maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
+        System.out.println(result2023);
+    }
+
+
+    class Solution2023 {
+        public int maxSubArray(int[] nums) {
+            int length = nums.length;
+            int[] dp = new int[length];
+            dp[0] = nums[0];
+
+            for (int i = 1; i < length; i ++) {
+                if(dp[i-1] <= 0) {
+                    dp[i] = nums[i];
+                } else {
+                    dp[i] = dp[i-1] + nums[i];
+                }
+            }
+
+            // 循环筛选结果
+            int result = dp[0];
+            for (int i : dp) {
+                result = Math.max(result, i);
+            }
+            return result;
+         }
     }
 
     class Solution {
@@ -54,8 +82,6 @@ public class MaximumSubarray {
                 ans = Math.max(ans, dp[i]);
             }
             return ans;
-
-
         }
 
         /**
